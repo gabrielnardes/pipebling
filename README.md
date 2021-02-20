@@ -4,7 +4,7 @@
 
 ## 🤔 Why did you made this project?
 
-I wanted to learn API's integration.
+I wanted to learn API's integration. Got the idea from this [repository](https://github.com/leonardo-jesus/pipedrive-bling-integration).
 
 ## 💬 What is it?
 
