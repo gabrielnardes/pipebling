@@ -1,0 +1,15 @@
+<h2>Orders: <%= orders.length %></h2>
+<div>
+    <% for (let i = 0; i < orders.length; i++) { %>
+    <div></div>
+    <div>Order number</div>
+    <div><%= orders[i].numeropedido %></div>
+    <div>Buy order code</div>
+    <div><%= orders[i].ordemcompra %></div>
+    <div>Supplier id</div>
+    <div><%= orders[i].fornecedorId %></div>
+    <div>Supplier name</div>
+    <div><%= orders[i].fornecedorNome %></div>
+    <br />
+    <% } %>
+</div>
