@@ -1,14 +1,13 @@
-<h2>Deals: <%= deals.length %></h2>
+<h2>Won deals: <%= deals.length %></h2>
 <div>
-    <% for (let i = 0; i < deals.length; i++) { %>
+    <% for (let i = 0; i < deals.length; i++) { %> <% if (deals[i].status ==
+    'won') { %>
     <div>Deal name</div>
     <div><%= deals[i].title %></div>
     <div>Person name</div>
     <div><%= deals[i].person_id.name %></div>
     <div>Organization name</div>
     <div><%= deals[i].org_id.name %></div>
-    <div>Status</div>
-    <div><%= deals[i].status %></div>
     <br />
-    <% } %>
+    <% } %> <% } %>
 </div>

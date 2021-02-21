@@ -40,7 +40,7 @@ router.get('/', async (req, res) => {
 router.get('/new', async () => {
     let pedidoxml;
 
-    fs.readFile('C:/dev/api/pipedrive/pedido1.xml', (err, data) => {
+    fs.readFile('C:/dev/api/pipedrive/src/pedido1.xml', (err, data) => {
         if (err) throw err;
         parseString(data, function () {
             pedidoxml =
