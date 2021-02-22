@@ -1,5 +1,6 @@
 const axios = require('axios');
 const router = require('express').Router();
+const Deal = require('../models/deal');
 
 router.get('/', async (req, res) => {
     try {
@@ -30,7 +31,56 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.post('/test', async (req, res) => {
+    try {
+        console.log('new');
+        const msg = req.body.msg;
+        console.log(msg);
+        res.redirect('/deals/won');
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.post('/new/:id', async (req, res) => {
+    const order = new Deal({
+        id: req.body.id,
+        title: req.body.title,
+        personName: req.body.personName,
+        orgName: req.body.orgName,
+        status: req.body.status,
+    });
+
+    console.log('order/new/id');
+    console.log(order.id);
+    console.log(order.title);
+    console.log(order.personName);
+    console.log(order.orgName);
+    console.log(order.status);
+    res.redirect('/deals/won');
+
+    // orderNumber: {
+    // buyOrderCode: {
+    // supplierId: {
+    // supplierName:
+
+    // renderNewPage(res, new Book());
+
+    // try {
+    //     const authors = await Author.find({});
+    //     const params = {
+    //         authors: authors,
+    //         book: book,
+    //     };
+    //     if (hasError) params.errorMessage = `Error ${form.errorVerb} this book`;
+    //     res.render(`books/new`, params);
+    // } catch {
+    //     res.redirect('/books');
+    // }
+});
+
 router.post('/', async (req, res) => {
+    console.log('Post /');
     let pedidoxml =
         '\
                 <?xml version="1.0" encoding="utf-8" ?>\

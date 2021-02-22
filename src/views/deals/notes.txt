@@ -1,0 +1,75 @@
+<form action="/orders/test" method="POST">
+    // <input type="text" name="msg" value="444" />
+    <button type="submit">test</button>
+</form>
+
+pipedrive                   bling
+id                          pedidocompra.numeropedido
+----                        pedidocompra.ordemcompra
+org_id                      pedidocompra.fornecedor.id
+org_id.name                 pedidocompra.fornecedor.nome
+products/data[i].name       <item><descricao>
+products/data[i].quantity   <item><qtde>
+products/data[i].sum        <item><valor>
+-----                       <parcela><nrodias>
+products/data[i].sum        <parcela><valor>
+
+title
+person_id.name
+
+
+<!-- 
+id                          pedidocompra.numeropedido
+----                        pedidocompra.ordemcompra
+org_id                      pedidocompra.fornecedor.id
+org_id.name                 pedidocompra.fornecedor.nome
+products/data[i].name       <item><descricao>
+products/data[i].quantity   <item><qtde>
+products/data[i].sum        <item><valor>
+-----                       <parcela><nrodias>
+products/data[i].sum        <parcela><valor>
+-->
+
+<h2>Won deals: <%= deals.length %></h2>
+<div>
+    <% for (let i = 0; i < deals.length; i++) { %> <%#if (deals[i].status ==
+    'won') { %>
+    <div>Deal Id: <%= deals[i].number %></div>
+    <div>Deal name: <%= %></div>
+    <div>Person name: <%= %></div>
+    <br />
+    <div>Order number <%= %></div>
+    <div>Buy order code: <%= %></div>
+    <div>Total amount: <%= %></div>
+    <br />
+    <div>Organization id: <%= %></div>
+    <div>Organization name: <%= %></div>
+    <br />
+    <%# for (let i = 0; i < deals.length; i++) %>
+    <div>Item name <%= %></div>
+    <div>Quantity: <%= %></div>
+    <div>Total price: <%= %></div>
+
+    <form action="/orders" method="POST">
+        <button type="submit">Create</button>
+    </form>
+    <form action="/orders/new/<%= deals[i].id %>" method="POST">
+        <input type="hidden" name="id" value="<%= deals[i].id %>" />
+        <input type="hidden" name="title" value="<%= deals[i].title %>" />
+        <input
+            type="hidden"
+            name="personName"
+            value="<%= deals[i].person_id.name %>"
+        />
+        <input
+            type="hidden"
+            name="orgName"
+            value="<%= deals[i].org_id.name %>"
+        />
+        <input type="hidden" name="status" value="<%= deals[i].status %>" />
+        <button type="submit">test</button>
+    </form>
+    <br />
+    <br />
+    <% } %> <% } %>
+</div>

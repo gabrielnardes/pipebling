@@ -1,17 +1,29 @@
 <h2>Won deals: <%= deals.length %></h2>
 <div>
-    <% for (let i = 0; i < deals.length; i++) { %> <% if (deals[i].status ==
-    'won') { %>
-    <div>Deal name</div>
-    <div><%= deals[i].title %></div>
-    <div>Person name</div>
-    <div><%= deals[i].person_id.name %></div>
-    <div>Organization name</div>
-    <div><%= deals[i].org_id.name %></div>
-    <form action="/orders" method="POST">
-        <button type="submit">Create</button>
+    <% for (let i = 0; i < deals.length; i++) { %>
+    <div>Order number <%= deals[i].number %></div>
+    <div>Buy order code: <%= deals[i].buyOrderCode %></div>
+    <div>Total amount: <%= deals[i].totalAmount%></div>
+    <br />
+    <div>Organization id: <%= deals[i].supplier.id %></div>
+    <div>Organization name: <%= deals[i].supplier.name %></div>
+    <br />
+    <% for (let j = 0; j < deals[i].itens.length; j++) { %>
+    <div>Item name <%= deals[i].itens[j].name %></div>
+    <div>Quantity: <%= deals[i].itens[j].quantity %></div>
+    <div>Total price: <%= deals[i].itens[j].price %></div>
+    <br />
+    <% } %>
+
+    <form action="/orders/new/<%= %>" method="POST">
+        <input type="hidden" name="id" value="<%= %>" />
+        <input type="hidden" name="title" value="<%=  %>" />
+        <input type="hidden" name="personName" value="<%=  %>" />
+        <input type="hidden" name="orgName" value="<%=  %>" />
+        <input type="hidden" name="status" value="<%=  %>" />
+        <button type="submit">Make a buy order</button>
     </form>
     <br />
     <br />
-    <% } %> <% } %>
+    <% } %>
 </div>
