@@ -7,6 +7,7 @@
     <br />
     <div>Organization id: <%= deals[i].supplier.id %></div>
     <div>Organization name: <%= deals[i].supplier.name %></div>
+    <div>Organization CNPF/CNPJ: <%= deals[i].supplier.cpfcnpj %></div>
     <br />
     <% for (let j = 0; j < deals[i].itens.length; j++) { %>
     <div>Item name <%= deals[i].itens[j].name %></div>
@@ -37,6 +38,11 @@
             type="hidden"
             name="supplierName"
             value="<%= deals[i].supplier.name %>"
+        />
+        <input
+            type="hidden"
+            name="cpfcnpj"
+            value="<%= deals[i].supplier.cpfcnpj %>"
         />
         <% for (let j = 0; j < deals[i].itens.length; j++) { %>
         <input

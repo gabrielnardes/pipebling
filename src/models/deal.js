@@ -22,6 +22,10 @@ const dealSchema = new mongoose.Schema({
             type: String,
             required: true,
         },
+        cpfcnpj: {
+            type: String,
+            require: true,
+        },
     },
     itens: [
         {

@@ -19,7 +19,6 @@ router.delete('/:id', async (req, res) => {
 
         await Deal.deleteOne({ number: `${req.params.id}` }, function (err) {
             if (err) return err;
-            // deleted at most one tank document
         });
         const dealsDatabase = await Deal.find();
         res.render('deals/won', { deals: dealsDatabase });
@@ -71,6 +70,25 @@ router.get('/import', async (req, res) => {
                     },
                 });
 
+                console.log('org.id');
+                console.log(dealsPipedrive[i].org_id.value);
+                const resCpfCnpj = await axios({
+                    url: `/organizations/${dealsPipedrive[i].org_id.value}`,
+                    method: 'get',
+                    baseURL: `https://${process.env.pipedriveCompanyName}.pipedrive.com/api/v1/`,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    params: {
+                        api_token: `${process.env.pipedriveToken}`,
+                    },
+                });
+                const cpf =
+                    resCpfCnpj.data.data
+                        .afa8c0bbe71a179c7659a02f7c640b2612b75ef0;
+                console.log('resCpfCnpj');
+                console.log(cpf);
+
                 let itens = [];
                 for (let i = 0; i < response.data.data.length; i++) {
                     itens[i] = {
@@ -88,6 +106,7 @@ router.get('/import', async (req, res) => {
                     supplier: {
                         id: dealsPipedrive[i].org_id.value,
                         name: dealsPipedrive[i].org_id.name,
+                        cpfcnpj: cpf,
                     },
                     itens: itens,
                 });
