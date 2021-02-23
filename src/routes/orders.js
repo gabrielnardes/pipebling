@@ -1,5 +1,6 @@
 const axios = require('axios');
 const router = require('express').Router();
+const Deal = require('../models/deal');
 
 router.post('/new/:id', async (req, res) => {
     try {
@@ -37,12 +38,10 @@ router.post('/new/:id', async (req, res) => {
                 apikey: `${process.env.blingToken}`,
             },
         });
-        // let supplier = responseBling.data.retorno.erros;
 
         let supplier;
         try {
             supplier = responseBling.data.retorno.contatos[0].contato;
-            console.log(supplier);
         } catch (error) {
             console.log('Supplier not found');
             res.redirect('/deals/won');
@@ -98,98 +97,36 @@ router.post('/new/:id', async (req, res) => {
                 xml: pedidoxml,
             },
         });
-        console.log(response.data.retorno.erros);
+        if (response.data.retorno.erros != null) {
+            console.log(response.data.retorno.erros);
+        }
+
+        console.log('update buy order status');
+        const resUpdateStatus = await axios({
+            url: `/deals/${req.body.number}`,
+            method: 'put',
+            baseURL: `https://${process.env.pipedriveCompanyName}.pipedrive.com/api/v1/`,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            params: {
+                api_token: `${process.env.pipedriveToken}`,
+            },
+            data: {
+                c01ceb30fe5d9f972b6c684121d5ecae5b4fa049: '13',
+            },
+        });
+        console.log(resUpdateStatus.data);
+
+        console.log('deleting after make order');
+        await Deal.deleteOne({ number: `${req.body.number}` }, function (err) {
+            if (err) return err;
+        });
         res.redirect('/deals/won');
     } catch (err) {
         console.log(err);
         res.redirect('/deals/won');
     }
 });
-
-// router.get('/', async (req, res) => {
-//     try {
-//         const response = await axios({
-//             url: '/pedidoscompra/json',
-//             method: 'get',
-//             baseURL: 'https://bling.com.br/Api/v2/',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             params: {
-//                 apikey: `${process.env.blingToken}`,
-//             },
-//         });
-//         let blingData = response.data.retorno.pedidoscompra;
-//         let orders = [];
-//         for (let i = 0; i < blingData[0].length; i++) {
-//             orders[i] = {
-//                 numeropedido: blingData[0][i].pedidocompra.numeropedido,
-//                 ordemcompra: blingData[0][i].pedidocompra.ordemcompra,
-//                 fornecedorId: blingData[0][i].pedidocompra.fornecedor.id,
-//                 fornecedorNome: blingData[0][i].pedidocompra.fornecedor.nome,
-//             };
-//         }
-//         res.render('orders', { orders: orders });
-//     } catch (err) {
-//         console.log(err);
-//     }
-// });
-
-// router.post('/test', async (req, res) => {
-//     try {
-//         console.log('new');
-//         const msg = req.body.msg;
-//         console.log(msg);
-//         res.redirect('/deals/won');
-//     } catch (err) {
-//         console.log(err);
-//     }
-// });
-
-// router.post('/', async (req, res) => {
-//     console.log('Post /');
-//     let pedidoxml =
-//         '\
-//                 <?xml version="1.0" encoding="utf-8" ?>\
-//                 <pedidocompra>\
-//                     <numeropedido>12</numeropedido>\
-//                     <ordemcompra>777777</ordemcompra>\
-//                     <fornecedor>\
-//                         <id>11367046329</id>\
-//                         <nome>Maria</nome>\
-//                     </fornecedor>\
-//                 <itens>\
-//                     <item>\
-//                         <descricao>Produto 2</descricao>\
-//                         <qtde>10</qtde>\
-//                         <valor>12.50</valor>\
-//                     </item>\
-//                 </itens>\
-//                 <parcelas>\
-//                     <parcela>\
-//                         <nrodias>30</nrodias>\
-//                         <valor>125.00</valor>\
-//                     </parcela>\
-//                 </parcelas>\
-//                 </pedidocompra>';
-
-//     try {
-//         await axios({
-//             url: '/pedidocompra/json',
-//             method: 'post',
-//             baseURL: 'https://bling.com.br/Api/v2/',
-//             headers: {
-//                 'Content-Type': 'text/xml',
-//             },
-//             params: {
-//                 apikey: `${process.env.blingToken}`,
-//                 xml: pedidoxml,
-//             },
-//         });
-//         res.redirect('/orders');
-//     } catch (err) {
-//         console.log(err);
-//     }
-// });
 
 module.exports = router;
