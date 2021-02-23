@@ -1,6 +1,102 @@
 const axios = require('axios');
 const router = require('express').Router();
-const Deal = require('../models/deal');
+// const Deal = require('../models/deal');
+
+router.post('/new/:id', async (req, res) => {
+    try {
+        console.log('order/new/id');
+        console.log(req.body.number);
+        console.log(req.body.buyOrderCode);
+        console.log('total: R$' + req.body.totalAmount);
+
+        console.log(req.body.supplierId);
+        console.log(req.body.supplierName);
+
+        if (req.body.itensQuantity > 1) {
+            for (let i = 0; i < req.body.itensQuantity; i++) {
+                console.log(req.body.itemName[i]);
+                console.log('qty: ' + req.body.itemQuantity[i]);
+                console.log('un.: $' + req.body.itemPrice[i]);
+            }
+        } else {
+            console.log(req.body.itemName);
+            console.log('qty: ' + req.body.itemQuantity);
+            console.log('un.: $' + req.body.itemPrice);
+        }
+
+        const cpf = '990.355.758-22';
+
+        const responseBling = await axios({
+            url: `/contato/${cpf}/json`,
+            method: 'get',
+            baseURL: 'https://bling.com.br/Api/v2/',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            params: {
+                apikey: `${process.env.blingToken}`,
+            },
+        });
+        let supplier = responseBling.data.retorno.contatos[0].contato;
+
+        let itens = '';
+        if (req.body.itensQuantity > 1) {
+            for (let i = 0; i < req.body.itensQuantity; i++) {
+                itens += `<item>\
+                            <descricao>${req.body.itemName[i]}</descricao>\
+                            <qtde>${req.body.itemQuantity[i]}</qtde>\
+                            <valor>${req.body.itemPrice[i]}</valor>\
+                          </item>`;
+            }
+        } else {
+            itens = `<item>\
+                        <descricao>${req.body.itemName}</descricao>\
+                        <qtde>${req.body.itemQuantity}</qtde>\
+                        <valor>${req.body.itemPrice}</valor>\
+                      </item>`;
+        }
+        // console.log(itens);
+
+        let pedidoxml = `\
+                <?xml version="1.0" encoding="utf-8" ?>\
+                <pedidocompra>\
+                    <numeropedido>${req.body.number}</numeropedido>\
+                    <ordemcompra>${req.body.buyOrderCode}</ordemcompra>\
+                    <fornecedor>\
+                        <id>${supplier.id}</id>\
+                        <nome>${req.body.supplierName}</nome>\
+                    </fornecedor>\
+                <itens>\
+                    ${itens}\
+                </itens>\
+                <parcelas>\
+                    <parcela>\
+                        <nrodias>30</nrodias>\
+                        <valor>${req.body.totalAmount}</valor>\
+                    </parcela>\
+                </parcelas>\
+                </pedidocompra>`;
+        console.log(pedidoxml);
+
+        const response = await axios({
+            url: '/pedidocompra/json',
+            method: 'post',
+            baseURL: 'https://bling.com.br/Api/v2/',
+            headers: {
+                'Content-Type': 'text/xml',
+            },
+            params: {
+                apikey: `${process.env.blingToken}`,
+                xml: pedidoxml,
+            },
+        });
+        console.log(response.data.retorno.erros);
+        res.redirect('/deals/won');
+    } catch (err) {
+        console.log(err);
+        res.redirect('/deals/won');
+    }
+});
 
 router.get('/', async (req, res) => {
     try {
@@ -40,43 +136,6 @@ router.post('/test', async (req, res) => {
     } catch (err) {
         console.log(err);
     }
-});
-
-router.post('/new/:id', async (req, res) => {
-    const order = new Deal({
-        id: req.body.id,
-        title: req.body.title,
-        personName: req.body.personName,
-        orgName: req.body.orgName,
-        status: req.body.status,
-    });
-
-    console.log('order/new/id');
-    console.log(order.id);
-    console.log(order.title);
-    console.log(order.personName);
-    console.log(order.orgName);
-    console.log(order.status);
-    res.redirect('/deals/won');
-
-    // orderNumber: {
-    // buyOrderCode: {
-    // supplierId: {
-    // supplierName:
-
-    // renderNewPage(res, new Book());
-
-    // try {
-    //     const authors = await Author.find({});
-    //     const params = {
-    //         authors: authors,
-    //         book: book,
-    //     };
-    //     if (hasError) params.errorMessage = `Error ${form.errorVerb} this book`;
-    //     res.render(`books/new`, params);
-    // } catch {
-    //     res.redirect('/books');
-    // }
 });
 
 router.post('/', async (req, res) => {

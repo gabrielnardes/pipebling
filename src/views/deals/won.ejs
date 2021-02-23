@@ -15,13 +15,59 @@
     <br />
     <% } %>
 
-    <form action="/orders/new/<%= %>" method="POST">
-        <input type="hidden" name="id" value="<%= %>" />
-        <input type="hidden" name="title" value="<%=  %>" />
-        <input type="hidden" name="personName" value="<%=  %>" />
-        <input type="hidden" name="orgName" value="<%=  %>" />
-        <input type="hidden" name="status" value="<%=  %>" />
+    <form action="/orders/new/<%= deals[i].number %>" method="POST">
+        <input type="hidden" name="number" value="<%= deals[i].number %>" />
+        <input
+            type="hidden"
+            name="buyOrderCode"
+            value="<%= deals[i].buyOrderCode %>"
+        />
+        <input
+            type="hidden"
+            name="totalAmount"
+            value="<%= deals[i].totalAmount %>"
+        />
+
+        <input
+            type="hidden"
+            name="supplierId"
+            value="<%= deals[i].supplier.id %>"
+        />
+        <input
+            type="hidden"
+            name="supplierName"
+            value="<%= deals[i].supplier.name %>"
+        />
+        <% for (let j = 0; j < deals[i].itens.length; j++) { %>
+        <input
+            type="hidden"
+            name="itemName"
+            value="<%= deals[i].itens[j].name %>"
+        />
+        <input
+            type="hidden"
+            name="itemQuantity"
+            value="<%= deals[i].itens[j].quantity %>"
+        />
+        <input
+            type="hidden"
+            name="itemPrice"
+            value="<%= deals[i].itens[j].price %>"
+        />
+        <% } %>
+        <input
+            type="hidden"
+            name="itensQuantity"
+            value="<%= deals[i].itens.length %>"
+        />
+
         <button type="submit">Make a buy order</button>
+    </form>
+    <form
+        method="POST"
+        action="<%= `/deals/${deals[i].number}` %>?_method=DELETE"
+    >
+        <button type="submit">Delete order from database</button>
     </form>
     <br />
     <br />

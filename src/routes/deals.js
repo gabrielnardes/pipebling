@@ -5,9 +5,23 @@ const Deal = require('../models/deal');
 router.get('/won', async (req, res) => {
     try {
         const dealsDatabase = await Deal.find();
+        res.render('deals/won', { deals: dealsDatabase });
+    } catch (err) {
+        res.redirect('/');
+        console.log(err);
+    }
+});
 
-        console.log(dealsDatabase[0].itens[0].name);
+router.delete('/:id', async (req, res) => {
+    try {
+        console.log('delete');
+        console.log(req.params.id);
 
+        await Deal.deleteOne({ number: `${req.params.id}` }, function (err) {
+            if (err) return err;
+            // deleted at most one tank document
+        });
+        const dealsDatabase = await Deal.find();
         res.render('deals/won', { deals: dealsDatabase });
     } catch (err) {
         res.redirect('/');
@@ -16,7 +30,6 @@ router.get('/won', async (req, res) => {
 });
 
 router.get('/import', async (req, res) => {
-    console.log('import');
     try {
         const response = await axios({
             url: '/deals',
@@ -66,10 +79,8 @@ router.get('/import', async (req, res) => {
                         quantity: response.data.data[i].quantity,
                     };
                 }
-                // console.log(itens);
 
                 console.log('Saving');
-                // console.log(dealsPipedrive[i].id);
                 const newDeal = new Deal({
                     number: dealsPipedrive[i].id,
                     buyOrderCode: 'b' + dealsPipedrive[i].id,
@@ -80,9 +91,6 @@ router.get('/import', async (req, res) => {
                     },
                     itens: itens,
                 });
-                // console.log(newDeal.itens);
-                console.log(newDeal);
-                // console.log(newDeal.itens.length);
                 await newDeal.save();
             }
         }
