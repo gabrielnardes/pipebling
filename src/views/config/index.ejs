@@ -1,0 +1,28 @@
+<h2>Configuration</h2>
+<form action="/config" method="POST">
+    <div>
+        <label>Pipedrive Company</label>
+        <input
+            type="text"
+            name="pipedriveCompanyName"
+            value="<%= process.env.pipedriveCompanyName %>"
+        />
+    </div>
+    <div>
+        <label>Pipedrive Token</label>
+        <input
+            type="text"
+            name="pipedriveToken"
+            value="<%= process.env.pipedriveToken %>"
+        />
+    </div>
+    <div>
+        <label>Bling Token</label>
+        <input
+            type="text"
+            name="blingToken"
+            value="<%= process.env.blingToken %>"
+        />
+    </div>
+    <button type="submit">Configure</button>
+</form>

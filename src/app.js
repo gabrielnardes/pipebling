@@ -10,6 +10,7 @@ const app = express();
 const indexRouter = require('./routes/index');
 const dealsRouter = require('./routes/deals');
 const ordersRouter = require('./routes/orders');
+const configRouter = require('./routes/config');
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
@@ -31,5 +32,6 @@ db.once('open', () => console.log('Connected to database'));
 app.use('/', indexRouter);
 app.use('/deals', dealsRouter);
 app.use('/orders', ordersRouter);
+app.use('/config', configRouter);
 
 module.exports = app;

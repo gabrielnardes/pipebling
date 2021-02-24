@@ -44,7 +44,7 @@ router.post('/new/:id', async (req, res) => {
             supplier = responseBling.data.retorno.contatos[0].contato;
         } catch (error) {
             console.log('Supplier not found');
-            res.redirect('/deals/won');
+            res.redirect('/deals');
             return;
         }
 
@@ -65,7 +65,7 @@ router.post('/new/:id', async (req, res) => {
                       </item>`;
         }
 
-        let pedidoxml = `\
+        let xmlOrder = `\
                 <?xml version="1.0" encoding="utf-8" ?>\
                 <pedidocompra>\
                     <numeropedido>${req.body.number}</numeropedido>\
@@ -94,15 +94,15 @@ router.post('/new/:id', async (req, res) => {
             },
             params: {
                 apikey: `${process.env.blingToken}`,
-                xml: pedidoxml,
+                xml: xmlOrder,
             },
         });
         if (response.data.retorno.erros != null) {
             console.log(response.data.retorno.erros);
         }
 
-        console.log('update buy order status');
-        const resUpdateStatus = await axios({
+        console.log('Update buy order status to true');
+        await axios({
             url: `/deals/${req.body.number}`,
             method: 'put',
             baseURL: `https://${process.env.pipedriveCompanyName}.pipedrive.com/api/v1/`,
@@ -113,20 +113,18 @@ router.post('/new/:id', async (req, res) => {
                 api_token: `${process.env.pipedriveToken}`,
             },
             data: {
-                c01ceb30fe5d9f972b6c684121d5ecae5b4fa049: '13',
+                [process.env.buyOrderStatus]: 'True',
             },
         });
-        console.log(resUpdateStatus.data);
 
-        console.log('deleting after make order');
+        console.log('Deleting after make order');
         await Deal.deleteOne({ number: `${req.body.number}` }, function (err) {
             if (err) return err;
         });
-        res.redirect('/deals/won');
     } catch (err) {
         console.log(err);
-        res.redirect('/deals/won');
     }
+    res.redirect('/deals');
 });
 
 module.exports = router;
