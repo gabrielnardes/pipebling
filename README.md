@@ -11,15 +11,12 @@ I wanted to learn API's integration. Got the idea from this [repository](https:/
 ## 🛠️ What technologies did you use?
 
 -   HTML
--   CSS
 -   Javascript
 -   Node.js
 -   Express.js
--   MongoDB Atlas
+-   MongoDB
 -   EJS
--   Heroku
 -   Axios
--   Webhook
 -   Pipedrive API
 -   Bling API
 
@@ -102,7 +99,7 @@ Insert the following data for each product:
 
 ### 7. Pipedrive deal custom field
 
-You will be adding a custom field called `Buy order made`. It tells if a deal was already transformed into a order at Bling, so every time we import the deals in our application, the deals already ordered at Bling won't be imported. Create a deal with at least a `Organization` and a `product`, and do the following steps:
+You will be adding a custom field called `Buy order made`. It tells if a deal was already transformed into a order at Bling, so every time we import the deals in our application, the deals already ordered at Bling won't be imported again. Create a deal with at least a `Organization` and a `product`, and do the following steps:
 
 <img src="img/buyorderstatus-config.png" width="50%"/>
 
@@ -128,11 +125,9 @@ Start the server
 npm run start
 ```
 
-Open `http://localhost:3000` in your browser
+Open `http://localhost:3000` in your browser.
 
-In the `Configuration` page: `http://localhost:3000/config`
-
-Insert your data:
+In the `Configuration` page: `http://localhost:3000/config`, insert your data:
 
 <img src="img/configuration.png" width="40%"/>
 
@@ -150,11 +145,11 @@ It will show all the open won deals that were already imported from the Pipedriv
 
 ### Make a buy order
 
-It will connect to the Bling API, do some checks, and create a buy order at Bling. After that, it will update the buy order status at Pipedrive to `True`, to make sure to not import this deal again, and delete the deal from database.
+It will connect to the Bling API, check if the products and organizations exists, and create a buy order at Bling. After that, it will update the buy order status at Pipedrive to `True`, to make sure to not import this deal again, and delete the deal from database.
 
 ### Delete won deal from database
 
-Delete entry only at database, not from Pipedrive. If you press `Import won deals`, it will be imported again.
+Delete entry only at database, not from Pipedrive. If you press `Import won deals`, the deal will be imported again.
 
 <br>
 <p align="center">Made by <a href="https://www.linkedin.com/in/gabriel-nardes-giampietro/">Gabriel Nardes Giampietro</a>👍
