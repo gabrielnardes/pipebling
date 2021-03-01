@@ -1,14 +1,12 @@
-# ⚠️ Still in progress
-
-## 🖥️ Project name: _Pipebling: The Integration_.
-
-## 🤔 Why did you made this project?
-
-I wanted to learn API's integration. Got the idea from this [repository](https://github.com/leonardo-jesus/pipedrive-bling-integration).
+<h1 align="center" style="font-style: italic; font-weight: bold">Pipebling: The Integration</h1>
 
 ## 💬 What is it?
 
 An integration between Pipedrive and Bling API's. I will put some other goals in the future, but the major feature is to search for won deals in Pipedrive, and send a buy order to Bling. Ideally, you will be able to do this in two ways, by a manual press of a button (already implemented), or by setting a Webhook on Pipedrive (for the future).
+
+## 🤔 Why did you made this project?
+
+I wanted to learn API's integration. Got the idea from this [repository](https://github.com/leonardo-jesus/pipedrive-bling-integration).
 
 ## 🛠️ What technologies did you use?
 
@@ -100,13 +98,13 @@ Insert the following data for each product:
 -   Product name
 -   Unit price
 
-<img src="img/pipedrive-product.png" width="70%"/>
+<img src="img/pipedrive-product.png" width="50%"/>
 
 ### 7. Pipedrive deal custom field
 
 You will be adding a custom field called `Buy order made`. It tells if a deal was already transformed into a order at Bling, so every time we import the deals in our application, the deals already ordered at Bling won't be imported. Create a deal with at least a `Organization` and a `product`, and do the following steps:
 
-<img src="img/buyorderstatus-config.png" width="60%"/>
+<img src="img/buyorderstatus-config.png" width="50%"/>
 
 Fill the custom field with only `True` or `False`.
 
@@ -136,7 +134,7 @@ In the `Configuration` page: `http://localhost:3000/config`
 
 Insert your data:
 
-<img src="img/configuration.png" width="60%"/>
+<img src="img/configuration.png" width="40%"/>
 
 Press the `Configure` button. Finally, you are all set.
 
@@ -148,7 +146,7 @@ It will import all won deals in Pipedrive with `Buy order status` equals to `Fal
 
 It will show all the open won deals that were already imported from the Pipedrive to the database.
 
-<img src="img/won-deals.png" width="300"/>
+<img src="img/won-deals.png" width="280"/>
 
 ### Make a buy order
 
