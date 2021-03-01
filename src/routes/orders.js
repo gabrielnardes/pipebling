@@ -39,6 +39,18 @@ router.post('/new/:id', async (req, res) => {
             },
         });
 
+        console.log('responseBling');
+        console.log('responseBling');
+        console.log('responseBling');
+        console.log('responseBling');
+        console.log('responseBling');
+        console.log('responseBling');
+        console.log('responseBling');
+        console.log('responseBling');
+        console.log('responseBling');
+        console.log('responseBling');
+        console.log(responseBling);
+
         let supplier;
         try {
             supplier = responseBling.data.retorno.contatos[0].contato;

@@ -3,7 +3,7 @@
     <% for (let i = 0; i < deals.length; i++) { %>
     <div>Order number <%= deals[i].number %></div>
     <div>Buy order code: <%= deals[i].buyOrderCode %></div>
-    <div>Total amount: <%= deals[i].totalAmount%></div>
+    <div>Total price: $<%= deals[i].totalAmount%></div>
     <br />
     <div>Organization id: <%= deals[i].supplier.id %></div>
     <div>Organization name: <%= deals[i].supplier.name %></div>
@@ -12,7 +12,7 @@
     <% for (let j = 0; j < deals[i].itens.length; j++) { %>
     <div>Item name <%= deals[i].itens[j].name %></div>
     <div>Quantity: <%= deals[i].itens[j].quantity %></div>
-    <div>Total price: <%= deals[i].itens[j].price %></div>
+    <div>Unit price: $<%= deals[i].itens[j].price %></div>
     <br />
     <% } %>
 
@@ -73,7 +73,7 @@
         method="POST"
         action="<%= `/deals/${deals[i].number}` %>?_method=DELETE"
     >
-        <button type="submit">Delete order from database</button>
+        <button type="submit">Delete won deal from database</button>
     </form>
     <br />
     <br />

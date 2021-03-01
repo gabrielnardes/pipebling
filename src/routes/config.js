@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
             });
 
             responseOrg.data.data.forEach((el) => {
-                if (el.name == 'cpfcnpj') {
+                if (el.name == 'CPF/CNPJ') {
                     process.env['cpfcnpj'] = el.key;
                 }
             });
@@ -69,7 +69,7 @@ router.post('/', async (req, res) => {
                 process.env.buyOrderStatus == null ||
                 process.env.buyOrderStatus == ''
             ) {
-                console.log('Config is null');
+                console.log('Config in is null');
                 res.redirect('/deals');
                 return;
             }
@@ -80,7 +80,7 @@ router.post('/', async (req, res) => {
             console.log('pipedriveToken: ' + process.env['pipedriveToken']);
             console.log('blingToken: ' + process.env['blingToken']);
             console.log('buyOrderStatus: ' + process.env['buyOrderStatus']);
-            console.log('cpfcnpj: ' + process.env['cpfcnpj']);
+            console.log('CPF/CNPJ: ' + process.env['cpfcnpj']);
             console.log('configuring done');
         } else {
             console.log('Config is null');
